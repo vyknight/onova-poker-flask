@@ -1,19 +1,6 @@
 # flask
 from flask import Flask, jsonify, request
 import json
-
-# api keys
-import os
-os.environ["OPENAI_API_KEY"] = ""
-os.environ["GOOGLE_API_KEY"] = ""
-os.environ["GOOGLE_CSE_ID"] = ""
-
-import pinecone
-pinecone.init(
-    api_key="",
-    environment="us-west4-gcp-free"
-)
-
 # langchain imports
 from langchain.vectorstores import Pinecone
 from langchain.embeddings.openai import OpenAIEmbeddings
@@ -22,6 +9,19 @@ from langchain import OpenAI
 from langchain.agents import AgentType, initialize_agent, Tool, load_tools
 from langchain.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
+import pinecone
+import os
+from decouple import config
+
+# api keys
+os.environ["OPENAI_API_KEY"] = config('OPENAI_API')
+os.environ["GOOGLE_API_KEY"] = config('GOOGLE_API')
+os.environ["GOOGLE_CSE_ID"] = config('GOOGLE_CSE')
+
+pinecone.init(
+    api_key=config('PINECONE_API'),
+    environment="us-west4-gcp-free"
+)
 
 # llm
 docsearch_llm = OpenAI(temperature=0.1)

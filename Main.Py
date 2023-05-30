@@ -55,6 +55,9 @@ agent_chain = initialize_agent(tools, agent_llm, agent=AgentType.CHAT_CONVERSATI
 # flask setup
 app = Flask(__name__)
 
+@app.route('/')
+def landing():
+    return "Welcome to the API"
 
 @app.route('/response', methods=['POST'])
 def get_agent_response():
